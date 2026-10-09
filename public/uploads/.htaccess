@@ -1,0 +1,5 @@
+# Las subidas son solo imágenes: nada de PHP se ejecuta aquí.
+<FilesMatch "\.php$">
+  Require all denied
+</FilesMatch>
+ForceType application/octet-stream

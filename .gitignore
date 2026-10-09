@@ -1,0 +1,14 @@
+# Privado: credenciales locales (ver .env.example como plantilla)
+.env
+
+# Subidas de usuarios (se versionan .htaccess y .gitkeep, no las fotos)
+public/uploads/noticias/*
+!public/uploads/noticias/.gitkeep
+!public/uploads/noticias/.htaccess
+
+# Sistema y editores
+Thumbs.db
+Desktop.ini
+.vscode/
+*.log
+*.tmp

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#641722"><meta name="description" content="Panel de gestión de noticias de la CSJ San Martín. Acceso restringido."><link rel="icon" href="favicon.svg" type="image/svg+xml"><title>Panel de noticias | CSJ San Martín</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20261009"><script src="admin.js?v=20261009" defer></script>
+</head>
+<body class="admin-body">
+  <div class="topline"><div class="wrap topbar"><span><i></i> PODER JUDICIAL DEL PERÚ</span><a href="index.html">← Volver al portal</a></div></div>
+  <header class="admin-header"><div class="wrap admin-header-inner"><a class="brand" href="index.html"><img src="assets/logo-poder-judicial.png" alt="Poder Judicial del Perú"></a><span>GESTIÓN EDITORIAL</span><a href="index.html" class="admin-back">← Ver portal</a></div></header>
+  <main class="admin-main"><div class="wrap admin-wrap">
+    <div id="auth-view" class="auth-card">
+      <div class="auth-photo"><img src="assets/institucional-2.jpg" alt="Jornada Conecta San Martín de la Corte Superior de Justicia de San Martín" fetchpriority="high"><span>CSJ SAN MARTÍN</span></div>
+      <h1 id="auth-title">Panel de noticias</h1>
+      <form id="auth-form">
+        <label id="username-label">Usuario<input id="username" autocomplete="username" required></label>
+        <label id="password-label">Contraseña<input id="password" type="password" autocomplete="current-password" required></label>
+        <button class="button button-red" type="submit" id="auth-submit">Ingresar <span>→</span></button>
+        <p class="auth-error" id="auth-error" role="alert" hidden></p>
+      </form>
+    </div>
+    <section id="dashboard" hidden>
+      <div class="dashboard-title"><div><span class="eyebrow">ADMINISTRACIÓN EDITORIAL</span><h1>Panel <em>de gestión.</em></h1></div><div class="dashboard-user"><span id="signed-user"></span><button class="button button-outline-dark" id="logout-button">Cerrar sesión</button></div></div>
+      <div class="admin-notice"><span>i</span><p><b>Guardado en la base de datos:</b> las publicaciones y cuentas se guardan en MySQL y se ven en el portal para todos los visitantes.</p></div>
+      <details class="account-card"><summary>Mi cuenta · cambiar contraseña</summary>
+        <div class="account-form">
+          <label>Clave actual<input id="acc-current" type="password" autocomplete="current-password"></label>
+          <label>Nueva clave (mín. 10 caracteres)<input id="acc-new" type="password" autocomplete="new-password"></label>
+          <div><button class="button button-red" id="acc-save" type="button">Guardar nueva clave</button></div>
+          <p class="form-error" id="acc-error" role="alert" hidden></p>
+          <p class="form-ok" id="acc-ok" role="status" hidden>Contraseña actualizada.</p>
+        </div>
+      </details>
+      <div class="admin-tabs" role="tablist" aria-label="Secciones del panel"><button type="button" class="admin-tab active" id="tab-news" role="tab" aria-selected="true">Noticias</button><button type="button" class="admin-tab" id="tab-users" role="tab" aria-selected="false" hidden>Usuarios</button></div>
+      <div id="news-panel" class="admin-layout" role="tabpanel" aria-labelledby="tab-news">
+        <form id="news-form" class="editor-card"><input type="hidden" id="edit-id"><div class="editor-heading"><div><span class="eyebrow">EDITOR DE CONTENIDO</span><h2 id="form-title">Nueva noticia</h2></div><button type="reset" class="reset-editor" id="clear-form">Limpiar</button></div>
+          <label>Título de la noticia<input id="news-title" maxlength="110" required placeholder="Escribe un título claro"></label>
+          <label>Resumen<textarea id="news-summary" rows="3" maxlength="240" required placeholder="Una breve introducción"></textarea></label>
+          <label>Contenido<textarea id="news-body" rows="7" required placeholder="Desarrolla la información de la noticia"></textarea></label>
+          <div class="form-row"><label>Fecha<input id="news-date" type="date" required></label><label>Categoría<select id="news-category"><option>Institucional</option><option>Servicios judiciales</option><option>Atención al usuario</option><option>Actividades</option></select></label></div>
+          <label>Fotografías<input id="news-image" type="file" accept="image/jpeg,image/png,image/webp" multiple><small>Puedes agregar varias fotos, verticales u horizontales. Cada una se comprime al cargar.</small></label>
+          <div id="image-preview" class="image-preview" hidden><div id="photo-list" class="photo-list" aria-live="polite"></div><div id="image-optimization-info" class="image-optimization-info" aria-live="polite"></div><button type="button" id="remove-all-photos">Quitar todas las fotos</button></div>
+          <label>Video de YouTube (opcional)<input id="news-video" maxlength="200" placeholder="Pega el enlace del video…"><small>Solo enlaces de YouTube. Si lo dejas vacío, la noticia se muestra sin video.</small></label>
+          <label class="check-label"><input id="news-featured" type="checkbox"> Destacar en la portada</label>
+          <div class="editor-actions"><button class="button button-red" type="submit">Publicar noticia <span>→</span></button><span>La noticia aparecerá en Inicio y Noticias.</span></div><p class="form-error" id="form-error" role="alert" hidden></p>
+        </form>
+        <aside class="manage-card"><div class="manage-heading"><div><span class="eyebrow">CONTENIDO</span><h2>Publicadas <span id="published-count">0</span></h2></div></div><p class="manage-hint">Edita o elimina noticias creadas desde este navegador.</p><div id="managed-news" class="managed-news"></div></aside>
+      </div>
+      <div id="users-panel" class="admin-layout" role="tabpanel" aria-labelledby="tab-users" hidden>
+        <form id="user-form" class="editor-card"><input type="hidden" id="user-edit-id"><div class="editor-heading"><div><span class="eyebrow">ACCESO DEL EQUIPO</span><h2 id="user-form-title">Crear usuario</h2></div><button type="reset" class="reset-editor" id="clear-user-form">Limpiar</button></div>
+          <label>Nombre del encargado<input id="user-name" maxlength="80" required placeholder="Nombre y apellido"></label>
+          <label>Usuario de acceso<input id="new-username" maxlength="40" autocomplete="off" required placeholder="Ej. editor.contenidos"></label>
+          <label>Contraseña inicial<input id="new-user-password" type="password" autocomplete="new-password" minlength="10" required placeholder="Al menos 10 caracteres"><small>Comunícale la clave al encargado por un canal privado. Podrá usarla para iniciar sesión.</small></label>
+          <label>Rol<select id="user-role"><option value="editor">Editor de contenidos</option><option value="admin">Administrador</option></select></label>
+          <button class="button button-red" type="submit" id="save-user-button">Crear usuario <span>→</span></button><p class="form-error" id="user-error" role="alert" hidden></p>
+        </form>
+        <aside class="manage-card"><div class="manage-heading"><div><span class="eyebrow">CUENTAS LOCALES</span><h2>Usuarios <span id="user-count">0</span></h2></div></div><p class="manage-hint">Activa o desactiva el acceso del equipo. El administrador principal no se puede eliminar desde esta lista.</p><div id="users-list" class="managed-news"></div></aside>
+      </div>
+    </section>
+  </div></main>
+  <footer class="admin-footer"><div class="wrap"><span>CSJ San Martín · Panel de noticias · Prototipo local</span><a href="index.html">Volver al portal ↗</a></div></footer>
+</body></html>

@@ -1,0 +1,24 @@
+# Portal CSJ San Martín · Apache (raíz web = public/)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Forzar HTTPS solo en producción (no en localhost/.test)
+  RewriteCond %{HTTP_HOST} !^(localhost|.*\.test|127\.0\.0\.1)(:\d+)?$ [NC]
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# Seguridad: cabeceras (si headers_module disponible)
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# Bloquear archivos sensibles si alguno llegara aquí
+<FilesMatch "^(\.env|.*\.sql|.*\.log|.*\.md)$">
+  Require all denied
+</FilesMatch>
+
+# Sin listado de directorios
+Options -Indexes
